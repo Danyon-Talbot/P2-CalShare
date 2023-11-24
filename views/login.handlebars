@@ -1,0 +1,19 @@
+{{!< main}}
+<section>
+    <div>
+        <form method="POST" action="/login">
+            <label for="username">Username: </lable>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <button type="submit">Login</button>
+            <br>
+            <button type="createUser">Don't have an account? Click here to create one.</button>
+        </form>
+    </div>
+</section>
+<section>
+    {{ pitch }}
+</section>
