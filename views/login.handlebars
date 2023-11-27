@@ -1,19 +1,20 @@
 {{!< main}}
 <section>
+    <h1>Log in to see your events.</h1>
     <div>
-        <form method="POST" action="/login">
-            <label for="username">Username: </lable>
-            <input type="text" id="username" name="username" required>
+        <form id='login-form'>
+            <label for="email">Email: </lable>
+            <input type="text" id="email-login" name="email" required>
             <br>
             <label for="password">Password: </label>
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password-login" name="password" required>
             <br>
-            <button type="submit">Login</button>
-            <br>
-            <button type="createUser">Don't have an account? Click here to create one.</button>
+            <button type="submit" id="loginButton">Login</button>
         </form>
     </div>
+    <div>
+        <button type="createUser" id="signUpButton">Don't have an account? Click here to create one.</button>
+    </div>
 </section>
-<section>
-    {{ pitch }}
-</section>
+
+<script src="/js/login.js"></script>

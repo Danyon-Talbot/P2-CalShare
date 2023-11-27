@@ -5,27 +5,27 @@ class UserEvent extends Model {}
 
 UserEvent.init(
     {
-        UserEventID: {
+        id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-        UserID: {
+        user_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'user',
                 key: 'UserID'
             }
         },
-        EventID: {
+        event_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'event',
                 key: 'EventID'
             }
         },
-        Role: {
+        role: {
             type: DataTypes.STRING,
             allowNull: false
         }

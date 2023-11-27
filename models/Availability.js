@@ -5,13 +5,13 @@ class Availability extends Model {}
 
 Availability.init(
     {
-        AvailabilityID: {
+        id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-        UserEventID: {
+        user_event_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'userEvent',
@@ -20,19 +20,19 @@ Availability.init(
         },
         // This section may need adjusting in line with our calendar package
             // We may need additional attributes for multiple dates and multiple availabilities with in each date
-        Date: {
+        date: {
             type: DataTypes.DATEONLY,
             allowNull: false
         },
-        StartTime: {
+        start_time: {
             type: DataTypes.TIME,
             allowNull: false
         },
-        EndTime: {
+        end_time: {
             type: DataTypes.TIME,
             allowNull: false
         },
-        Status: {
+        status: {
             type: DataTypes.STRING,
             allowNull: false
         }
