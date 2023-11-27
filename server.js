@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 3001;
 // app.engine('handlebars', exphbs());
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
-  partialsDir: __dirname + '/views/partials/' // Adjust the path as necessary
+  partialsDir: __dirname + '/views/partials/'
 }));
 app.set('view engine', 'handlebars');
 
