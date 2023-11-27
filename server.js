@@ -19,7 +19,11 @@ const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.engine('handlebars', exphbs());
+// app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  partialsDir: __dirname + '/views/partials/' // Adjust the path as necessary
+}));
 app.set('view engine', 'handlebars');
 
 app.set('views', path.join(__dirname, 'views'));
