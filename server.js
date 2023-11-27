@@ -23,21 +23,34 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 app.set('views', path.join(__dirname, 'views'));
-
-// renders the login page
-app.get('/login', function (req, res) {
-  res.render('login', { title: 'CalShare'});
-});
-
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static('public'));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(routes);
+app.use('/', routes);
 
+// Redirect to the login page when the root path ("/") is accessed
+app.get('/', (req, res) => {
+  res.redirect('/login'); // Redirect to the "/login" route
+});
 
+// Render the login page
+app.get('/login', (req, res) => {
+  res.render('login', { title: 'CalShare: Login' });
+});
 
+// Render the signup page
+app.get('/signup', (req, res) => {
+  res.render('signup', { title: 'Sign Up to CalShare' });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 sequelize.sync()
   .then(() => {
