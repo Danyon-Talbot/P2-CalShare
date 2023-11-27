@@ -5,17 +5,17 @@ class Event extends Model {}
 
 Event.init(
     {
-        EventID: {
+        id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-        EventName: {
+        event_name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        CreatorID: {
+        creator_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'user',
@@ -23,7 +23,7 @@ Event.init(
             }
         },
         // will need to explore this further to ensure its functionality
-        EventLink: {
+        event_link: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true

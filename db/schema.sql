@@ -1,30 +1,32 @@
-DROP DATABASE IF EXISTS ecommerce_db;
+DROP DATABASE IF EXISTS calendar_db;
 
-CREATE DATABASE ecommerce_db;
+CREATE DATABASE calendar_db;
 
-CREATE TABLE Category (
+CREATE TABLE User (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(255) NOT NULL
+    firstname VARCHAR(30) NOT NULL,
+    lastname VARCHAR(30) NOT NULL,
+    password VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE Product (
+CREATE TABLE Event (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    product_name VARCHAR(255) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    stock INT NOT NULL DEFAULT 10,
-    category_id INT,
-    FOREIGN KEY (category_id) REFERENCES Category(id)
+    event_name VARCHAR(100) NOT NULL,
+    creator_id INT NOT NULL,
+    event_link VARCHAR(255),
+    FOREIGN KEY (creator_id) REFERENCES User(id)
 );
 
-CREATE TABLE Tag (
+CREATE TABLE UserEvent (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tag_name VARCHAR(255) NOT NULL
+    user_id INT NOT NULL,
+    event_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES User(id),
+    FOREIGN KEY (event_id) REFERENCES Event(id)
 );
 
-CREATE TABLE ProductTag (
+CREATE TABLE Availability (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT,
-    tag_id INT,
-    FOREIGN KEY (product_id) REFERENCES Product(id),
-    FOREIGN KEY (tag_id) REFERENCES Tag(id)
+    user_event_id INT,
+    FOREIGN KEY (user_event_id) REFERENCES UserEvent(id)
 );
