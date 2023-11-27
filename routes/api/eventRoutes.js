@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Event = require('../../models/Event');
+const { Event } = require('../../models');
 
 
 //POST
@@ -23,7 +23,7 @@ router.get('/event', async (req, res) => {
   });
 
 //PUT
-router.put('/event/:EventID', async (req, res) => {
+router.put('/event/:id', async (req, res) => {
     try {
         const EventID = parseInt(req.params.id);
         const updatedData = req.body;
@@ -44,7 +44,7 @@ router.put('/event/:EventID', async (req, res) => {
 })
 
 //DELETE
-router.delete('/event/:EventID', async (req, res) => {
+router.delete('/event/:id', async (req, res) => {
     try {
         const EventID = parseInt(req.params.id);
 
