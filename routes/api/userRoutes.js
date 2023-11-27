@@ -65,3 +65,18 @@ app.get('/logout', (req, res) => {
     }
   });
 });
+
+// check if the user is authenticated
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+}
+
+// route that requires authentication
+app.get('/profile', isAuthenticated, (req, res) => {
+  const user = req.session.user;
+  res.status(200).json({ user });
+});
