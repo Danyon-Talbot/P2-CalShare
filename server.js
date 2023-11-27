@@ -6,6 +6,8 @@ require('dotenv').config();
 const exphbs = require('express-handlebars');
 const path = require('path');
 
+
+const sessionSecret = process.env.SESSION_SECRET;
 const dbHost = process.env.DB_HOST;
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -30,7 +32,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static('public'));
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,7 +39,7 @@ app.use('/', routes);
 
 // Redirect to the login page when the root path ("/") is accessed
 app.get('/', (req, res) => {
-  res.redirect('/login'); // Redirect to the "/login" route
+  res.redirect('/login'); 
 });
 
 // Render the login page
@@ -55,6 +56,17 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
+
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 3600000, // Session expiration time in milliseconds (1 hour)
+    secure: false,
+    httpOnly: true,
+  },
+}));
 
 sequelize.sync()
   .then(() => {
