@@ -2,6 +2,8 @@ DROP DATABASE IF EXISTS calendar_db;
 
 CREATE DATABASE calendar_db;
 
+USE calendar_db
+
 CREATE TABLE User (
     id INT AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(30) NOT NULL,
