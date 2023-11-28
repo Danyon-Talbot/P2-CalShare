@@ -1,26 +1,13 @@
 const express = require('express');
 const routes = require('./routes');
-const { Sequelize } = require('sequelize');
-const mysql = require('mysql2');
-require('dotenv').config();
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const path = require('path');
 const userRoutes = require('./routes/api/userRoutes');
 // const eventRoutes = require('./routes/api/eventRoutes');
-
-
+const sequelize = require('./config/connection');
 
 const sessionSecret = process.env.SESSION_SECRET;
-const dbHost = process.env.DB_HOST;
-const dbUser = process.env.DB_USER;
-const dbPassword = process.env.DB_PASSWORD;
-const dbName = process.env.DB_DATABASE;
-
-const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
-  host: dbHost,
-  dialect: 'mysql',
-});
 
 const app = express();
 const PORT = process.env.PORT || 3001;
