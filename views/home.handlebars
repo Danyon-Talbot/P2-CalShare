@@ -1,10 +1,18 @@
-<h2>Your Events</h2>
-{{#if events.length}}
-    <ul class="events-list">
-        {{#each events}}
-            <li>{{this.name}} - {{this.date}}</li>
-        {{/each}}
-    </ul>
-{{else}}
+<section class="left-section">
+    <div class="title">
+            <h1>CalShare</h1>
+    </div>
+    <h2>Your Events</h2>
+    {{#if events.length}}
+        <ul class="events-list">
+            {{#each events}}
+                <li>{{this.name}} - {{this.date}}</li>
+            {{/each}}
+        </ul>
+    {{else}}
     <p>No events found.</p>
-{{/if}}
+    {{/if}}
+</section>
+<section class="right-section">
+    <p>Welcome!</p>       
+</section>
