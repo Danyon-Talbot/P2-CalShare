@@ -1,60 +1,90 @@
-const router = require('express').Router();
-const User = require('../../models/User');
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcrypt');
+const { User } = require('../../models');
 
 // GET all users
 router.get('/', async (req, res) => {
     try {
-      const userData = await User.findAll();
-      res.status(200).json(userData);
-    } catch (err) {
-      res.status(500).json(err);
+        const users = await User.findAll();
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Error fetching users' });
     }
-  });
+});
 
-  // CREATE a new user
-router.post('/', async (req, res) => {
+// GET user by ID
+router.get('/:id', async (req, res) => {
+    const userId = req.params.id;
+
     try {
-      const userData = await User.create(req.body);
-      res.status(200).json(userData);
-    } catch (err) {
-      res.status(400).json(err);
+        const user = await User.findByPk(userId);
+
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Error fetching user' });
     }
-  });
+});
 
-  // Route for user login
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    // Find the user by email
-    const user = await User.findOne({ where: { Email: email } });
-
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+// POST route for user login
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      // Find the user by email
+      const user = await User.findOne({ where: { email: email } });
+  
+      if (!user) {
+        return res.status(400).json({ message: 'Invalid email or password' });
+      }
+  
+      // Check the password
+      const passwordMatch = await bcrypt.compare(password, user.password);
+  
+      if (!passwordMatch) {
+        return res.status(400).json({ message: 'Invalid email or password' });
+      }
+  
+      // If login is successful, you can store user data in the session
+      req.session.user = {
+        id: user.id,
+        email: user.email,
+      };
+  
+      res.status(200).json({ message: 'Logged in successfully' });
+    } catch (error) {
+      console.error('Login Error:', error);
+      res.status(500).json({ message: 'Server error' });
     }
+});
+  
+  // Signup route
+router.post('/signup', async (req, res) => {
+    const { firstname, lastname, email, password } = req.body;
 
-    // Check the password
-    const passwordMatch = await bcrypt.compare(password, user.Password);
+    try {
+        const newUser = await User.create({
+            firstname: firstname,
+            lastname: lastname,
+            email,
+            password
+        });
 
-    if (!passwordMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+        res.status(201).json({ message: 'User created successfully', newUser});
+    } catch (error) {
+        console.error('Signup Error:', error);
+        res.status(500).json({ message: 'Error creating user' });
     }
-
-    // Store user data in the session
-    req.session.user = {
-      id: user.UserID,
-      email: user.Email,
-    };
-
-    res.status(200).json({ message: 'Logged in successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
 });
 
 // Route for user logout
-app.get('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error(err);
@@ -76,7 +106,10 @@ function isAuthenticated(req, res, next) {
 }
 
 // route that requires authentication
-app.get('/profile', isAuthenticated, (req, res) => {
+router.get('/home', isAuthenticated, (req, res) => {
   const user = req.session.user;
+  res.render('home', { title: 'CalShare' });
   res.status(200).json({ user });
 });
+
+module.exports = router;

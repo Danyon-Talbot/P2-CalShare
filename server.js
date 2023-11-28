@@ -4,7 +4,11 @@ const { Sequelize } = require('sequelize');
 const mysql = require('mysql2');
 require('dotenv').config();
 const exphbs = require('express-handlebars');
+const session = require('express-session');
 const path = require('path');
+const userRoutes = require('./routes/api/userRoutes');
+// const eventRoutes = require('./routes/api/eventRoutes');
+
 
 
 const sessionSecret = process.env.SESSION_SECRET;
@@ -21,41 +25,16 @@ const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// app.engine('handlebars', exphbs());
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
   partialsDir: __dirname + '/views/partials/'
 }));
 app.set('view engine', 'handlebars');
-
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.static('public'));
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use('/', routes);
-
-// Redirect to the login page when the root path ("/") is accessed
-app.get('/', (req, res) => {
-  res.redirect('/login'); 
-});
-
-// Render the login page
-app.get('/login', (req, res) => {
-  res.render('login', { title: 'CalShare: Login' });
-});
-
-// Render the signup page
-app.get('/signup', (req, res) => {
-  res.render('signup', { title: 'Sign Up to CalShare' });
-});
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
 
 app.use(session({
   secret: sessionSecret,
@@ -67,6 +46,21 @@ app.use(session({
     httpOnly: true,
   },
 }));
+
+app.use('/', routes);
+app.use('/api/users', userRoutes);
+// app.use('/api/events', eventRoutes);
+
+
+app.get('/', (req, res) => res.redirect('/login'));
+app.get('/login', (req, res) => res.render('login', { title: 'CalShare: Login' }));
+app.get('/signup', (req, res) => res.render('signup', { title: 'Sign Up to CalShare' }));
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
 
 sequelize.sync()
   .then(() => {

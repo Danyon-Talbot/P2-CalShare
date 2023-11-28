@@ -2,7 +2,7 @@ const router = require('express').Router();
 const apiRoutes = require('./api');
 
 // API Routes not finished, seemingly was causing issues with starting Server.
-// router.use('/api', apiRoutes);
+router.use('/api', apiRoutes);
 
 router.get('/login', (req, res) => {
   res.render('login', { title: 'CalShare' });
