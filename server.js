@@ -1,26 +1,13 @@
 const express = require('express');
 const routes = require('./routes');
-const { Sequelize } = require('sequelize');
-const mysql = require('mysql2');
-require('dotenv').config();
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const path = require('path');
 const userRoutes = require('./routes/api/userRoutes');
-// const eventRoutes = require('./routes/api/eventRoutes');
+const eventRoutes = require('./routes/api/eventRoutes');
+const sequelize = require('./config/connection');
 
-
-
-const sessionSecret = process.env.SESSION_SECRET;
-const dbHost = process.env.DB_HOST;
-const dbUser = process.env.DB_USER;
-const dbPassword = process.env.DB_PASSWORD;
-const dbName = process.env.DB_DATABASE;
-
-const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
-  host: dbHost,
-  dialect: 'mysql',
-});
+const sessionSecret = process.env.SESSION_SECRET
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -49,12 +36,13 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/api/users', userRoutes);
-// app.use('/api/events', eventRoutes);
+app.use('/api/events', eventRoutes);
 
 
 app.get('/', (req, res) => res.redirect('/login'));
 app.get('/login', (req, res) => res.render('login', { title: 'CalShare: Login' }));
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign Up to CalShare' }));
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -72,19 +60,3 @@ sequelize.sync()
   .catch((err) => {
     console.error('Error syncing the database:', err);
   });
-
-
-
-
-// need to chat with whoever has been working on server.js
-// this is meant to Synchronize the Database and start the application
-// Setting force: false ensures that it doesn't drop and recreate the tables on every startup, preserving your data.
-
-// const db = require('./models'); // Adjust the path to where your models folder is
-
-// db.sequelize.sync({ force: false }).then(() => {
-//   // Start your server
-//   app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-//   });
-// });
