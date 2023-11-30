@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
 
-      // Fetch and display events data
+    // Fetch and display events data
+    // API/Availability end point needs to be made
     fetch('/api/availability')
         .then(response => response.json())
         .then(eventsData => {
