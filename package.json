@@ -30,7 +30,8 @@
     "fullcalendar": "^6.1.9",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.35.1",
-    "sqlite3": "^5.1.6"
+    "sequelize": "^5.22.5",
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.1"
   }
 }
