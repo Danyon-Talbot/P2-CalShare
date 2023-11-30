@@ -63,7 +63,7 @@ router.delete('/event/:id', async (req, res) => {
 
     }
 });
-
+/*
 
 module.exports = router;
 const express = require('express');
@@ -102,3 +102,4 @@ router.get('/:id', async (req, res) => {
 });
 
 module.exports = router;
+*/
