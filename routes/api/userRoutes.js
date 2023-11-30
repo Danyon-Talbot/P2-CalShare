@@ -1,46 +1,115 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcrypt');
 const { User } = require('../../models');
 
 // GET all users
-router.get('/users', async (req, res) => {
-  try {
-    const userData = await User.findAll();
-    res.status(200).json(userData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.findAll();
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Error fetching users' });
+    }
 });
 
-// CREATE a new user
-router.post('/users', async (req, res) => {
-  try {
-    const userData = await User.create(req.body);
-    res.status(200).json(userData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
+// GET user by ID
+router.get('/:id', async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await User.findByPk(userId);
+
+        if (user) {
+            res.json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Error fetching user' });
+    }
 });
 
-// DELETE
-router.delete('/users/:UserID', async (req, res) => {
-  try {
-    const userId = req.params.UserID;
-    await User.destroy({ where: { id: userId } });
-    res.status(200).json({ message: 'User deleted successfully' })
-  } catch {
-    res.status(400).json(err);
-  }
+// POST route for user login
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      // Find the user by email
+      const user = await User.findOne({ where: { email: email } });
+  
+      if (!user) {
+        return res.status(400).json({ message: 'Invalid email or password' });
+      }
+  
+      // Check the password
+      const passwordMatch = await bcrypt.compare(password, user.password);
+  
+      if (!passwordMatch) {
+        return res.status(400).json({ message: 'Invalid email or password' });
+      }
+  
+      // If login is successful, you can store user data in the session
+      req.session.user = {
+        id: user.id,
+        email: user.email,
+      };
+  
+      res.status(200).json({ message: 'Logged in successfully' });
+    } catch (error) {
+      console.error('Login Error:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+});
+  
+  // Signup route
+router.post('/signup', async (req, res) => {
+    const { firstname, lastname, email, password } = req.body;
+
+    try {
+        const newUser = await User.create({
+            firstname: firstname,
+            lastname: lastname,
+            email,
+            password
+        });
+
+        res.status(201).json({ message: 'User created successfully', newUser});
+    } catch (error) {
+        console.error('Signup Error:', error);
+        res.status(500).json({ message: 'Error creating user' });
+    }
 });
 
-// PUT
-router.put('/users/:userID', async (req, res) => {
-  try {
-    const userId = req.params.userID;
-    const updatedUserData = await User.update(req.body, { where: { id: userId } });
-    res.status(200).json(updatedUserData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
+// Route for user logout
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+    } else {
+      res.clearCookie('connect.sid');
+      res.status(200).json({ message: 'Logged out successfully' });
+    }
+  });
 });
 
-module.exports = router
+// check if the user is authenticated
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+}
+
+// route that requires authentication
+router.get('/home', isAuthenticated, (req, res) => {
+  const user = req.session.user;
+  res.render('home', { title: 'CalShare' });
+  res.status(200).json({ user });
+});
+
+module.exports = router;

@@ -5,17 +5,25 @@ const loginFormHandler = async (event) => {
     const password = document.querySelector('#password-login').value.trim();
 
     if (email && password) {
-        const response = await fetch('/api/user/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: { 'Content-Type': 'application/json' },
-        });
+        try {
+            const response = await fetch('/api/users/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+                headers: { 'Content-Type': 'application/json' },
+            });
 
-        if (response.ok) {
-            document.location.replace('/');
-        } else {
-            alert('User Does Not Exist');
+            if (response.ok) {
+                document.location.replace('/');
+            } else {
+                const result = await response.json();
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            alert('An error occurred. Please try again later.');
         }
+    } else {
+        alert('Please enter both email and password');
     }
 };
 

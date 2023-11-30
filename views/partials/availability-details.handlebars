@@ -1,0 +1,28 @@
+<h1>Availability Calendar</h1>
+<button id="taggleMonth">Month View</button>
+<button id="toggleWeek">Week View</button>
+<div id='calendar'></div>
+
+{{!-- <script src='https://fullcalendar.io/releases/fullcalendar/5.2.0/lib/server.js'></script> --}}
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // Default view
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek'
+            }
+        });
+        calendar.render();
+        // Event listeners for view toggle buttons
+        document.getElementById('toggleMonth').addEventListener('click', function() {
+            calendar.changeView('dayGridMonth');
+        });
+        document.getElementById('toggleWeek').addEventListener('click', function() {
+            calendar.changeView('dayGridWeek');
+        });
+    });
+</script>

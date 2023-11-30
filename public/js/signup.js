@@ -1,29 +1,36 @@
 const signUpFormHandler = async (event) => {
     event.preventDefault();
+    console.log('Form submitted');
 
-    const firstName = document.querySelector('#firstname-signup').ariaValueMax.trim();
-    const lastName = document.querySelector('#lastname-signup').value.trim();
-    // const username = document.querySelector('#username-signup').value.trim();
+    const firstname = document.querySelector('#firstname-signup').value.trim();
+    const lastname = document.querySelector('#lastname-signup').value.trim();
     const email = document.querySelector('#email-signup').value.trim();
     const password = document.querySelector('#password-signup').value.trim();
 
-    if (firstName && lastName && username && email && password) {
-        const response = await fetch('api/users', {
-            method: 'POST',
-            body: JSON.stringify({ firstName, lastName, username, email, password }),
-            headers: { 'Content-Type': 'application/json' },
-        });
-        if (response.ok) {
-            document.location.replace('/');
-        } else {
-            alert('Failed to Sign Up');
+    if (firstname && lastname && email && password) {
+        try {
+            const response = await fetch('/api/users/signup', {
+                method: 'POST',
+                body: JSON.stringify({ firstname, lastname, email, password }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+            if (response.ok) {
+                document.location.replace('/');
+            } else {
+                alert('Failed to Sign Up');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            alert('An error occurred. Please try again later.');
         }
+    } else {
+        alert('Please enter all required information');
     }
 };
 
 document
     .querySelector('#signUpButton')
-    .addEventListener('submit', signUpFormHandler);
+    .addEventListener('click', signUpFormHandler);
 
 
 document.addEventListener('DOMContentLoaded', function () {
