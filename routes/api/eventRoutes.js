@@ -100,6 +100,5 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: 'Error fetching event' });
     }
 });
-
-module.exports = router;
 */
+module.exports = router;

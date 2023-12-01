@@ -9,8 +9,15 @@ router.post('/logout', (req, res) => {
       } else {
         res.clearCookie('connect.sid');
         res.status(200).json({ message: 'Logged out successfully' });
+        // Take to login page
+        res.redirect('/');
       }
     });
   });
+
+  // Test route
+router.get('/test', (req, res) => {
+  res.send('Test route works!');
+});
 
 module.exports = router;

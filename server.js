@@ -5,6 +5,7 @@ const session = require('express-session');
 const path = require('path');
 const userRoutes = require('./routes/api/userRoutes');
 const eventRoutes = require('./routes/api/eventRoutes');
+const logoutRoutes = require('./routes/logoutRoutes')
 const sequelize = require('./config/connection');
 
 const sessionSecret = process.env.SESSION_SECRET
@@ -38,6 +39,7 @@ app.use('/', routes);
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
 
+app.use('/logout', logoutRoutes);
 
 app.get('/', (req, res) => res.redirect('/login'));
 app.get('/login', (req, res) => res.render('login', { title: 'CalShare: Login' }));
