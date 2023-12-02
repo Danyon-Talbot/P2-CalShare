@@ -3,7 +3,7 @@ VALUES ('john_doe', 'john.doe@example.com', 'hashed_password_123', '2023-01-01 1
 ('jane_smith', 'jane.smith@example.com', 'hashed_password_456', '2023-01-02 10:30:00', '2023-01-02 10:30:00'),
 ('bob_jones', 'bob.jones@example.com', 'hashed_password_789', '2023-01-03 15:45:00', '2023-01-03 15:45:00');
 
-INSERT INTO Event (EventID, EventName, CreatorID, EventLink, CreatedAt, UpdatedAt)
+INSERT INTO Event (id, event_name, creator_id, event_link, CreatedAt, UpdatedAt)
 VALUES (1, 'Birthday Party', 1, 'birthday-party-link', '2023-01-10 08:00:00', '2023-01-10 08:00:00'),
 (2, 'Conference', 2, 'conference-link', '2023-02-15 10:30:00', '2023-02-15 10:30:00'),
 (3, 'Team Building', 3, 'team-building-link', '2023-03-20 15:45:00', '2023-03-20 15:45:00');

@@ -11,11 +11,11 @@ Availability.init(
             primaryKey: true,
             autoIncrement: true
         },
-        user_event_id: {
+        user_id: {
             type: DataTypes.INTEGER,
             references: {
-                model: 'userEvent',
-                key: 'UserEventID'
+                model: 'User',
+                key: 'id'
             }
         },
         // This section may need adjusting in line with our calendar package

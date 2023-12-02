@@ -39,20 +39,28 @@ User.init(
                 len: [8,128]
             }
         },
+        user_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4, 
+            unique: true,
+        }
+        
     },
     {
         hooks: {
             beforeCreate: async (newUserData) => {
-                newUserData.password = await bcrypt.hash(newUserData.password, 10);
+                newUserData.password = await bcrypt.hash(newUserData.password, 10);  
                 return newUserData;
             },
             beforeUpdate: async(updateUserData) => {
                 updateUserData.password = await bcrypt.hash(updateUserData.password, 10);
                 return updateUserData;
-            },
+            },         
         },
         sequelize,
         timestamps: true,
+        createdAt: 'created_at',
         freezeTableName: true,
         underscored: true,
         modelName: 'user'

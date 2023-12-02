@@ -1,0 +1,9 @@
+    {{#if events.length}}
+        <ul class="events-list">
+            {{#each events}}
+                <li>{{this.name}} - {{this.date}}</li>
+            {{/each}}
+        </ul>
+    {{else}}
+    <p>No events found.</p>
+    {{/if}}
