@@ -68,14 +68,15 @@ router.delete('/event/:id', async (req, res) => {
 module.exports = router;
 const express = require('express');
 const router = express.Router();
-// const bcrypt = require('bcrypt');
 const { Event } = require('../../models');
 
 
-// GET all users
+// GET all Events
 router.get('/', async (req, res) => {
     try {
-        const events = await Event.findAll();
+        const events = await Event.findAll({
+            order: [[ 'id', 'ASC']]
+        });
         res.json(events);
     } catch (error) {
         console.error('Error fetching events:', error);
@@ -83,12 +84,13 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET user by ID
+
+// GET event by ID
 router.get('/:id', async (req, res) => {
-    const eventId = req.params.id;
+    const id = req.params.id;
 
     try {
-        const event = await Event.findByPk(eventId);
+        const event = await Event.findOne({ where: { id: id } });
 
         if (event) {
             res.json(event);
@@ -100,5 +102,34 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: 'Error fetching event' });
     }
 });
-*/
+
+router.post('/create-event', async (req, res) => {
+    try {
+        const { event_name, creator_id, event_link, start_time, end_time } = req.body;
+
+        // Create a new event record
+        const newEvent = await Event.create({
+        event_name,
+        creator_id,
+        event_link,
+        start_time,
+        end_time,
+        });
+
+        return res.json(newEvent);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'An error occurred while creating the event.' });
+    }
+});
+
+// Sync the Sequelize model with the database and start the server
+sequelize.sync().then(() => {
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
+});
+
+
+
 module.exports = router;

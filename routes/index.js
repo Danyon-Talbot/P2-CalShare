@@ -6,7 +6,6 @@ const loginRoutes = require('./loginRoutes');
 const signupRoutes = require('./signupRoutes');
 const logoutRoutes = require('./logoutRoutes');
 
-
 router.use('/api', apiRoutes);
 
 router.use('/home', homeRoutes);
@@ -16,12 +15,5 @@ router.use('/login', loginRoutes);
 router.use('/signup', signupRoutes);
 
 router.use('/logout', logoutRoutes);
-
-
-
-// This was blocking error messages from generating in the console.
-// router.use((req, res) => {
-//   res.send("<h1>Wrong Route!</h1>")
-// });
 
 module.exports = router;

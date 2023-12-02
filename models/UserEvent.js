@@ -15,14 +15,14 @@ UserEvent.init(
             type: DataTypes.INTEGER,
             references: {
                 model: 'user',
-                key: 'UserID'
+                key: 'id'
             }
         },
         event_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'event',
-                key: 'EventID'
+                key: 'id'
             }
         },
         role: {
