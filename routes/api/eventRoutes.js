@@ -97,13 +97,6 @@ router.delete('/:id', async (req, res) => {
 });
 
 
-// Sync the Sequelize model with the database and start the server
-sequelize.sync().then(() => {
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
-});
-
 
 
 module.exports = router;
