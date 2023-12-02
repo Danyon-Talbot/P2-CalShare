@@ -6,15 +6,24 @@ const loginFormHandler = async (event) => {
 
     if (email && password) {
         try {
-            const response = await fetch('/api/users/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 body: JSON.stringify({ email, password }),
                 headers: { 'Content-Type': 'application/json' },
             });
 
             if (response.ok) {
-                document.location.replace('/');
+                const result = await response.json();
+                const userId = result.user_id;
+                
+                // Constructs the URL for the user's home page
+                const homeUrl = `/home/${userId}`;
+                console.log('Logging Successful');
+                sessionStorage.setItem('user_id', userId);
+                // Redirects to the user's home page
+                window.location.href = homeUrl;
             } else {
+                // Authentication failed response
                 const result = await response.json();
                 alert(result.message);
             }

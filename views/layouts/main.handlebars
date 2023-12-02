@@ -4,7 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{title}}</title>
-        {{!-- <link rel="stylesheet" type="text/css" href="/css/jass.css"> --}}
+        {{!-- I have added jquery for testing with the modal popup --}}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        {{!-- I have added bootstrap for testing with the Modal Popup --}}
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="/css/style.css">
             <style>
       @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
@@ -14,6 +18,13 @@
     <div class="container">
         {{{body}}}
     </div>
+    <!-- Logout Button -->
+    <div>
+        <form id="logout-form">
+            <button type="submit" id="logout-button">Logout</button>
+        </form>
+    </div>
+    <script src="/js/logout.js"></script>
 </body>
 </html>
 
