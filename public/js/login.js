@@ -6,7 +6,7 @@ const loginFormHandler = async (event) => {
 
     if (email && password) {
         try {
-            const response = await fetch('/api/users/login', {
+            const response = await fetch('/api/login', {
                 method: 'POST',
                 body: JSON.stringify({ email, password }),
                 headers: { 'Content-Type': 'application/json' },
@@ -19,7 +19,7 @@ const loginFormHandler = async (event) => {
                 // Constructs the URL for the user's home page
                 const homeUrl = `/home/${userId}`;
                 console.log('Logging Successful');
-                
+                sessionStorage.setItem('user_id', userId);
                 // Redirects to the user's home page
                 window.location.href = homeUrl;
             } else {
