@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 // Route for user logout
-router.post('/logout', (req, res) => {
+router.post('/', (req, res) => {
     req.session.destroy((err) => {
       if (err) {
         console.error(err);
@@ -10,9 +10,10 @@ router.post('/logout', (req, res) => {
         res.clearCookie('connect.sid');
         res.status(200).json({ message: 'Logged out successfully' });
         // Take to login page
-        res.redirect('/');
+        window.location.href = '/login';
       }
     });
+    
   });
 
   // Test route

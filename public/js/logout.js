@@ -5,14 +5,16 @@ const logoutHandler = async (event) => {
         method: 'POST',
         
     });
-    /*
+    
     if (response.ok) {
         // Logout successful
         console.log('Logged out successfully');
+        // Take to login page
+        window.location.href = '/login';
     } else {
         // Logout failed
         console.error('Logout failed');
-    }*/
+    }
 };
 
 
