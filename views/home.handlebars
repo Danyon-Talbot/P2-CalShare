@@ -2,7 +2,13 @@
     <div class="title">
             <h1>CalShare</h1>
     </div>
-    <h2>Your Events</h2>
+    <div>
+        <button class="createEventButton" id="createEventButton">Create Event</button>
+    </div>
+    <section class="events-container">
+        <div>
+        <h2>Your Events</h2>
+        </div>
     {{#if events.length}}
         <ul class="events-list">
             {{#each events}}
@@ -12,7 +18,59 @@
     {{else}}
     <p>No events found.</p>
     {{/if}}
+    </section>
 </section>
 <section class="right-section">
    {{> availability-details}}    
 </section>
+
+<!-- Modal -->
+<div id="myModal" class="modal" style="display: none">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <form class="createEvent-form">
+            <!-- Event Name -->
+            <div>
+                <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required>
+            </div>
+
+            <!-- Start Time -->
+            <div>
+                <label for="startTime">Start Time:</label>
+                <input type="datetime-local" id="startTime" name="startTime" required>
+            </div>
+
+            <!-- End Time -->
+            <div>
+                <label for="endTime">End Time:</label>
+                <input type="datetime-local" id="endTime" name="endTime" required>
+            </div>
+
+            <!-- Guests Selection -->
+            <div>
+                <div>
+                    <label>Invited Guests</label>
+                    <p id="invited-guests-list">
+
+                    </p>
+                </div>
+                <label for="guests">Add Guests:</label>
+                <select multiple id="guests-list" name="guests">
+                    
+                </select>
+            </div>
+
+            <!-- Event Owner (Hidden, taken from session) -->
+            <input type="hidden" name="eventOwner" value="{{user_id}}">
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" id="createEventSave">Create Event</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/modal.js"></script>
+<script src="/js/createEvent.js"></script>

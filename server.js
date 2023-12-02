@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const path = require('path');
 const userRoutes = require('./routes/api/userRoutes');
+const loginRoutes = require('./routes/api/loginRoutes')
 const eventRoutes = require('./routes/api/eventRoutes');
 const sequelize = require('./config/connection');
 
@@ -37,6 +38,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/login', loginRoutes);
 
 
 app.get('/', (req, res) => res.redirect('/login'));
