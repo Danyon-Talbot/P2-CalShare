@@ -32,12 +32,18 @@ CREATE TABLE UserEvent (
     user_id INT NOT NULL,
     event_id INT NOT NULL,
     user_role VARCHAR(30) NOT NULL,
-    FOREIGN KEY (id) REFERENCES User(id),
-    FOREIGN KEY (id) REFERENCES Event(id)
+    FOREIGN KEY (user_id) REFERENCES User(id),
+    FOREIGN KEY (event_id) REFERENCES Event(id)
 );
 
 CREATE TABLE Availability (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_event_id INT,
-    FOREIGN KEY (user_event_id) REFERENCES UserEvent(id)
+    user_id INT NOT NULL,
+    date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES User(id)
 );
