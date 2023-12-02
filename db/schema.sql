@@ -19,7 +19,9 @@ CREATE TABLE Event (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_name VARCHAR(100) NOT NULL,
     creator_id INT NOT NULL,
-    event_link VARCHAR(255),
+    event_link VARCHAR(255) UNIQUE,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (creator_id) REFERENCES User(id)
@@ -30,8 +32,8 @@ CREATE TABLE UserEvent (
     user_id INT NOT NULL,
     event_id INT NOT NULL,
     user_role VARCHAR(30) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES User(id),
-    FOREIGN KEY (event_id) REFERENCES Event(id)
+    FOREIGN KEY (id) REFERENCES User(id),
+    FOREIGN KEY (id) REFERENCES Event(id)
 );
 
 CREATE TABLE Availability (

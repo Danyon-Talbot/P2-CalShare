@@ -19,7 +19,7 @@ Event.init(
             type: DataTypes.INTEGER,
             references: {
                 model: 'user',
-                key: 'UserID'
+                key: 'id'
             }
         },
         // will need to explore this further to ensure its functionality
@@ -28,10 +28,20 @@ Event.init(
             allowNull: false,
             unique: true
         },
+        start_time: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+        end_time: {
+            type: DataTypes.DATE, // or DataTypes.DATETIME
+            allowNull: false,
+        },
     },
     {
         sequelize,
         timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
         freezeTableName: true,
         underscored: true,
         modelName: 'event'
