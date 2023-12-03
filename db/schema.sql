@@ -19,7 +19,6 @@ CREATE TABLE Event (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_name VARCHAR(100) NOT NULL,
     creator_id INT NOT NULL,
-    event_link VARCHAR(255) UNIQUE,
     start_time DATETIME NOT NULL,
     end_time DATETIME NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

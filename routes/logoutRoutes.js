@@ -19,4 +19,12 @@ router.get('/test', (req, res) => {
   res.send('Test route works!');
 });
 
+const errorHandler = (err, req, res, next) => {
+  console.error(err.stack); // Log the error for debugging purposes
+  res.status(500).json({ message: 'Internal Server Error' });
+};
+
+router.use(errorHandler);
+
+
 module.exports = router;
