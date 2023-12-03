@@ -19,11 +19,4 @@ document.addEventListener('DOMContentLoaded', function() {
                 calendar.addEvent(event);
             });
         });
-   // Event listeners for view toggle buttons
-    document.getElementById('toggleMonth').addEventListener('click', function() {
-        calendar.changeView('dayGridMonth');
-    });
-    document.getElementById('toggleWeek').addEventListener('click', function() {
-        calendar.changeView('dayGridWeek');
-    });
 });
