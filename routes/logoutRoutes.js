@@ -9,8 +9,6 @@ router.post('/', (req, res) => {
       } else {
         res.clearCookie('connect.sid');
         res.status(200).json({ message: 'Logged out successfully' });
-        // Take to login page
-        window.location.href = '/login';
       }
     });
     
