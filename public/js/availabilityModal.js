@@ -5,6 +5,7 @@ function createModal() {
     const modal = document.createElement('div');
     modal.id = 'availabilityModal';
     modal.className = 'modal';
+    modal.style.display = 'none';
 
     createModalContent(modal);
 
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("Modal script loaded.");
     // Event listener to open the modal
     document.getElementById('postAvailability').addEventListener('click', function() {
-            modal.style.display = 'block'; // Show the modal
+            modal.style.display = 'flex'; // Show the modal
             // Initialize the FullCalendar in the modal
             initModalCalendar();
             console.log("Modal should be open.");
