@@ -1,18 +1,21 @@
 <section class="form-container">
-    <h1>Log in to see your events.</h1>
         <div>
             <form id='login-form' class="form">
-                <label for="email">Email: </label>
-                <input type="text" id="email-login" name="email" class="email" required>
+
+                <div class="space-block"></div>
+                <input type="text" id="email-login" name="email" class="email" placeholder="Email" required>
+
                 <br>
-                <label for="password">Password: </label>
                 <input type="password" id="password-login" name="password" class="password" placeholder="Password" required>
-                               
-                
-                <button type="submit" id="loginButton" class="menu-button">Login</button>
-                <button type="createUser" id="signUpButton" class="menu-button">Don't have an account? Click here to create one.</button>
-            </form>
-        </div>
-        
+
+            <br>
+            <button type="submit" class="active">Log in</button>
+        </form>
+    </div>
+        <br>
+    <div>
+        <button type="createUser" id="signUpButton" class="inactive">Create Account</button>
+    </div>
+
 </section>
 <script src="/js/login.js"></script>
