@@ -2,18 +2,19 @@
     <h1>Log in to see your events.</h1>
         <div>
             <form id='login-form' class="form">
-                <input type="text" id="email-login" name="email" class="email" placeholder="Email" required>
+                <label for="email">Email: </label>
+                <input type="text" id="email-login" name="email" class="email" required>
                 <br>
-                <input type="password" id="password-login" name="password" class="password" placeholder="Password" required>
+                <label for="password">Password: </label>
+                <input type="password" id="password-login" name="password" class="password" required>
                 <br>
-                    <ul class="button-container">
-                        <li class="login-tab-active"><a href="#login">Log In</a></li>
-                        <li class="create-tab"><a href="#signup">Create Account</a></li>
-                    </ul>                
-                </div>
+                <button type="submit" id="loginButton">Login</button>
             </form>
         </div>
         <br>
+        <div>
+            <button type="createUser" id="signUpButton" class="menu-button">Don't have an account? Click here to create one.</button>
+        </div>
 </section>
 <script src="/js/login.js"></script>
 
