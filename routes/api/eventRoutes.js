@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Event, UserEvent } = require('../../models');
+const { isAuthenticated } = require('../../utils/helpers');
 
 
 
@@ -36,15 +37,14 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.post('/create-event', async (req, res) => {
+router.post('/', isAuthenticated, async (req, res) => {
     try {
-        const { event_name, creator_id, event_link, start_time, end_time, guests } = req.body;
-
+        const { event_name, start_time, end_time, guests } = req.body;
+        const creator_id = req.session.user.id;
         // Create a new event record
         const newEvent = await Event.create({
         event_name,
         creator_id,
-        event_link,
         start_time,
         end_time,
         });
@@ -63,6 +63,17 @@ router.post('/create-event', async (req, res) => {
         return res.status(500).json({ error: 'An error occurred while creating the event.' });
     }
 });
+
+
+
+
+
+
+
+
+
+
+
 
 //PUT
 router.put('/:id', async (req, res) => {
@@ -93,10 +104,10 @@ router.delete('/:id', async (req, res) => {
         const eventIndex = Event.findIndex(event => event.id === EventID);
 
         if (eventIndex === -1) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'Event not found' });
         }
 
-        const deletedEvent = events.splice(eventIndex, 1)[0];
+        const deletedEvent = Event.splice(eventIndex, 1)[0];
 
         res.json({ message: 'Event deleted successfully', event: deletedEvent });
     } catch (error) {
