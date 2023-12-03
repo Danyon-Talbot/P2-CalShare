@@ -47,6 +47,7 @@ router.post('/', isAuthenticated, async (req, res) => {
         creator_id,
         start_time,
         end_time,
+        guests,
         });
 
         if (guests && guests.length > 0) {

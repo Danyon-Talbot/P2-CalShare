@@ -7,6 +7,7 @@ const sequelize = require('./config/connection');
 const userRoutes = require('./routes/api/userRoutes');
 const loginRoutes = require('./routes/api/loginRoutes')
 const eventRoutes = require('./routes/api/eventRoutes');
+const userEventRoutes = require('./routes/api/userEventRoutes');
 const logoutRoutes = require('./routes/logoutRoutes')
 
 
@@ -41,6 +42,7 @@ app.use('/', routes);
 app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/login', loginRoutes);
+app.use('/api/userEvents', userEventRoutes);
 
 app.use('/logout', logoutRoutes);
 
