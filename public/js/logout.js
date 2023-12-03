@@ -11,11 +11,24 @@ const logoutHandler = async (event) => {
         console.log('Logged out successfully');
         // Take to login page
         window.location.href = '/login';
+        hideButton()
     } else {
         // Logout failed
         console.error('Logout failed');
     }
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.location.pathname == '/login' || window.location.pathname == '/signup') {
+        document.getElementById('logout-form').style.display = 'none';
+    } else {
+        document.getElementById('logout-form').style.display = 'block';
+    }
+});
+
+
+
+    
 
 
   
@@ -24,3 +37,4 @@ const logoutHandler = async (event) => {
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#logout-form').addEventListener('submit', logoutHandler);
 });
+
