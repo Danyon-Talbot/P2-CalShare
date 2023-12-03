@@ -1,3 +1,5 @@
+let isCalendarInitialized = false;
+
 function createModal() {
     const modal = document.createElement('div');
     modal.id = 'availabilityModal';
@@ -24,14 +26,21 @@ function createModalContent(modal) {
     submitButton.id = 'submitAvailability';
     modalContent.appendChild(submitButton);
 
+    // Create a close button
+    const closeButton = document.createElement('span');
+    closeButton.id = 'close';
+    closeButton.className = 'close';
+    closeButton.textContent = '×';
+    modalContent.appendChild(closeButton);
+
     // Append the modal content to the modal
     modal.appendChild(modalContent);
-
-    // Initialize the FullCalendar in the modal
-    initModalCalendar();
 }
 
 function initModalCalendar() {
+    if (isCalendarInitialized) {
+        return; // Do not reinitialize if already done
+    }
     const calendarEl = document.getElementById('modalCalendar');
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'timeGridWeek',       
@@ -42,6 +51,7 @@ function initModalCalendar() {
         }
     });
     calendar.render();
+    isCalendarInitialized = true;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -49,20 +59,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log("Modal script loaded.");
     // Event listener to open the modal
-    const postAvailabilityBtn = document.getElementById('postAvailability');
-    if (postAvailabilityBtn) {
-        postAvailabilityBtn.addEventListener('click', function() {
+    document.getElementById('postAvailability').addEventListener('click', function() {
             modal.style.display = 'block'; // Show the modal
+            // Initialize the FullCalendar in the modal
+            initModalCalendar();
             console.log("Modal should be open.");
         });
-    } else {
-        console.log("Post Availability button not found.");
-    }
+        
     // Event listener for the submit button
     document.getElementById('submitAvailability').addEventListener('click', function() {
         // Logic to handle the submission of availability
         modal.style.display = 'none'; // Hide the modal after submission
     });
     
+    document.getElementById('close').addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
     // Add more event listeners as needed, e.g., for closing the modal
 });
+
