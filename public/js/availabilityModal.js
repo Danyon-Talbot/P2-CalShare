@@ -1,4 +1,5 @@
 let isCalendarInitialized = false;
+let selectedTimeSlots = []; // Array to store selected time slots
 
 function createModal() {
     const modal = document.createElement('div');
@@ -48,6 +49,34 @@ function initModalCalendar() {
             left: 'prev,next',
             center: 'title',
             right: 'today'
+        },
+        selectable: true,
+        selectOverlap: false,
+        select: function(info) {
+            // Handle the selection
+            // `info` contains the start and end date/time of the selection
+            // Add the selected time slot as an event
+            calendar.addEvent({
+                start: info.start,
+                end: info.end,
+                backgroundColor: '#00ff00', // Example: green background
+                borderColor: '#00ff00' // Example: green border
+                });
+            
+            // Add the selected time slot to the array
+            selectedTimeSlots.push({
+                start: info.startStr,
+                end: info.endStr
+            });
+        },
+        eventClick: function(info) {
+            // Remove the event on click
+            info.event.remove();
+            
+            // Optionally, update the selectedTimeSlots array
+            selectedTimeSlots = selectedTimeSlots.filter(slot =>
+                slot.start !== info.event.startStr || slot.end !== info.event.endStr
+            );
         }
     });
     calendar.render();
@@ -68,7 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
     // Event listener for the submit button
     document.getElementById('submitAvailability').addEventListener('click', function() {
-        // Logic to handle the submission of availability
+        // Send selectedTimeSlots to the server
+        console.log('Submitting availability:', selectedTimeSlots);
+        // You can use fetch or another method to POST this data to your backend
         modal.style.display = 'none'; // Hide the modal after submission
     });
     
