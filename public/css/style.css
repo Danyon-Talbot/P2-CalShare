@@ -74,19 +74,9 @@ body {
     border-radius: 4px;
 }
 
-.active, .inactive {
-    box-sizing: border-box;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    font-size: 20px;
-    padding: 8px 20px;
-    width: 200px;
-
 #logout-form {
     position: absolute;
     margin: 10px;
-    
-}
 }
 
 /* Modal Styles */
@@ -128,6 +118,19 @@ body {
     display: block;
 }
 
+.active, .inactive {
+    box-sizing: border-box;
+    margin: 0 auto; 
+    margin-bottom: 10px;
+    font-size: 20px;
+    padding: 8px 20px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center; 
+    display: block;
+}
+
 .active {
     padding: 8px 0px;
     color: black;
@@ -139,9 +142,10 @@ body {
 }
 
 .inactive {
-    border: 2px solid #545454;
+    border: 2px solid #A6A6A6;
     background-color: white;
     color: black;
+    border-radius: 4px;
 }
 
 .inactive:hover {
