@@ -12,7 +12,7 @@ Availability.init(
             autoIncrement: true
         },
         user_id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             references: {
                 model: 'User',
                 key: 'id'

@@ -5,6 +5,7 @@ function createModal() {
     const modal = document.createElement('div');
     modal.id = 'availabilityModal';
     modal.className = 'modal';
+    modal.style.display = 'none';
 
     createModalContent(modal);
 
@@ -89,16 +90,49 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("Modal script loaded.");
     // Event listener to open the modal
     document.getElementById('postAvailability').addEventListener('click', function() {
-            modal.style.display = 'block'; // Show the modal
+            modal.style.display = 'flex'; // Show the modal
             // Initialize the FullCalendar in the modal
             initModalCalendar();
             console.log("Modal should be open.");
         });
         
     // Event listener for the submit button
-    document.getElementById('submitAvailability').addEventListener('click', function() {
+    document.getElementById('submitAvailability').addEventListener('click', async function() {
         // Send selectedTimeSlots to the server
-        console.log('Submitting availability:', selectedTimeSlots);
+        const userId = sessionStorage.getItem('user_id'); // Make sure 'user_id' matches your session storage key
+
+        const formattedAvailability = selectedTimeSlots.map(slot => {
+            const startDate = new Date(slot.start);
+            const endDate = new Date(slot.end);
+        
+            return {
+                user_id: userId,
+                date: startDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
+                start_time: startDate.toTimeString().split(' ')[0], // Format as HH:MM:SS
+                end_time: endDate.toTimeString().split(' ')[0], // Format as HH:MM:SS
+                status: 'available'
+            };
+        });
+
+        try {
+            const response = await fetch('/api/availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formattedAvailability),
+            });
+    
+            if (response.ok) {
+                console.log('Availability submitted successfully');
+                // Handle successful submission here (e.g., update UI)
+            } else {
+                console.error('Failed to submit availability');
+                // Handle errors here
+            }
+        } catch (error) {
+            console.error('Error submitting availability:', error);
+        }
         // You can use fetch or another method to POST this data to your backend
         modal.style.display = 'none'; // Hide the modal after submission
     });
