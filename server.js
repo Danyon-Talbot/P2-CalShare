@@ -3,11 +3,12 @@ const routes = require('./routes');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const path = require('path');
+const sequelize = require('./config/connection');
 const userRoutes = require('./routes/api/userRoutes');
 const loginRoutes = require('./routes/api/loginRoutes')
 const eventRoutes = require('./routes/api/eventRoutes');
 const logoutRoutes = require('./routes/logoutRoutes')
-const sequelize = require('./config/connection');
+
 
 const sessionSecret = process.env.SESSION_SECRET
 
@@ -50,7 +51,7 @@ app.get('/signup', (req, res) => res.render('signup', { title: 'Sign Up to CalSh
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
 

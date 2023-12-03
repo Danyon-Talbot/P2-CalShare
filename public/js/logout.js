@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
 
+  
+
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#logout-form').addEventListener('submit', logoutHandler);
 });
