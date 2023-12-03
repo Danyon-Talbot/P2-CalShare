@@ -21,7 +21,7 @@
     </section>
 </section>
 <section class="right-section">
-   {{> availability-details}}    
+   {{> availability-details availability=availability}}    
 </section>
 
 <!-- Modal -->
@@ -51,9 +51,9 @@
             <div>
                 <div>
                     <label>Invited Guests</label>
-                    <p id="invited-guests-list">
+                    <select multiple id="invited-guests-list">
 
-                    </p>
+                    </select>
                 </div>
                 <label for="guests">Add Guests:</label>
                 <select multiple id="guests-list" name="guests">

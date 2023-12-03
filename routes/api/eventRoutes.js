@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Event } = require('../../models');
+const { Event, UserEvent } = require('../../models');
+
 
 
 // GET all Events
@@ -36,9 +37,9 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.post('/create-event', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const { event_name, creator_id, event_link, start_time, end_time } = req.body;
+        const { event_name, creator_id, event_link, start_time, end_time, guests } = req.body;
 
         // Create a new event record
         const newEvent = await Event.create({
@@ -49,6 +50,14 @@ router.post('/create-event', async (req, res) => {
         end_time,
         });
 
+        if (guests && guests.length > 0) {
+            const guestRecords = guests.map((user_id) => {
+                return { user_id, event_id: newEvent.id }
+            });
+
+            await UserEvent.bulkCreate(guestRecords);
+        }
+
         return res.json(newEvent);
     } catch (error) {
         console.error(error);
@@ -56,12 +65,7 @@ router.post('/create-event', async (req, res) => {
     }
 });
 
-// Sync the Sequelize model with the database and start the server
-sequelize.sync().then(() => {
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
-});
+
 
 
 

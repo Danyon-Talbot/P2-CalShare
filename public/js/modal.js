@@ -9,20 +9,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const invitedGuestsList = document.getElementById('invited-guests-list');
 
     function populateGuests() {
+        // Clear the existing options in guestsList
+        guestsList.innerHTML = '';
+        invitedGuestsList.innerHTML = '';
+
         fetch('/api/users')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
-            }
-            return response.json();
+                }
+                return response.json();
             })
             .then((users) => {
                 users.forEach((user) => {
                     const option = document.createElement('option');
                     option.value = user.id;
+                    option.setAttribute('data-user_id', user.user_id);
                     option.textContent = `${user.firstname} ${user.lastname}`;
                     guestsList.appendChild(option);
-            });
+                });
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -30,17 +35,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
       
     
-    function inviteGuestHandler(guestOption) {
-        const clonedOption = guestOption.cloneNode(true);
-        invitedGuestsList.appendChild(clonedOption); 
-        guestsList.removeChild(guestOption);
-      }
-
-      guestsList.addEventListener('click', (event) => {
+    function handleGuestList(event) {
         if (event.target.tagName === 'OPTION') {
-          inviteGuestHandler(event.target);
+            const guestOption = event.target;
+    
+            if (invitedGuestsList.contains(guestOption)) {
+                // Uninvite the guest by moving it back to the guestsList
+                const clonedOption = guestOption.cloneNode(true);
+                invitedGuestsList.removeChild(guestOption);
+                guestsList.appendChild(clonedOption);
+            } else if (guestsList.contains(guestOption)) {
+                // Invite the guest by moving it to the invitedGuestsList
+                const clonedOption = guestOption.cloneNode(true);
+                guestsList.removeChild(guestOption);
+                invitedGuestsList.appendChild(clonedOption);
+            }
         }
-      });
+    }
+    
+    guestsList.addEventListener('click', handleGuestList);
+    invitedGuestsList.addEventListener('click', handleGuestList)
+    
+
+
 
 
     // Open the modal when the button is clicked
