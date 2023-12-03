@@ -47,7 +47,6 @@ app.get('/', (req, res) => res.redirect('/login'));
 app.get('/login', (req, res) => res.render('login', { title: 'CalShare: Login' }));
 app.get('/signup', (req, res) => res.render('signup', { title: 'Sign Up to CalShare' }));
 
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');

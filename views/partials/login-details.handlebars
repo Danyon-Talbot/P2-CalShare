@@ -1,19 +1,18 @@
 <section class="form-container">
-    <h1>Log in to see your events.</h1>
         <div>
             <form id='login-form' class="form">
+                <div class="space-block"></div>
                 <input type="text" id="email-login" name="email" class="email" placeholder="Email" required>
                 <br>
                 <input type="password" id="password-login" name="password" class="password" placeholder="Password" required>
-                <br>
-                    <ul class="button-container">
-                        <li class="login-tab-active"><a href="#login">Log In</a></li>
-                        <li class="create-tab"><a href="#signup">Create Account</a></li>
-                    </ul>                
-                </div>
-            </form>
-        </div>
+            <br>
+            <button type="submit" class="active">Log in</button>
+        </form>
+    </div>
         <br>
+    <div>
+        <button type="createUser" id="signUpButton" class="inactive">Create Account</button>
+    </div>
 </section>
 <script src="/js/login.js"></script>
 

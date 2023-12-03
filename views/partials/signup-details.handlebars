@@ -1,30 +1,24 @@
 <section class="form-container">
     <div>
         <form id="signup-form" class="form">
-            <label for="firstname">First Name: </label>
-            <input type="text" id="firstname-signup" name="firstname" class="first-name" required>
-            <br>
-            <label for="lastname">Last Name: </label>
-            <input type="text" id="lastname-signup" name="lastname" class="last-name" required>
-            <br>
-            <label for="email">Email: </label>
-            <input type="text" id="email-signup" name="email" class="email" required>
-            <br> 
-            <label for="password">Password: </label>
-            <input type="password" id="password-signup" name="password" class="password" required>
+                <input type="text" id="firstname-signup" name="firstname" class="first-name" placeholder="First Name" required>
+                <br>
+                <input type="text" id="lastname-signup" name="lastname" class="last-name" placeholder="Last Name" required>
+                <br>
+                <input type="text" id="email-signup" name="email" class="email" placeholder="Email" required>
+                <br>
+                <input type="text" id="password-signup" name="password" class="password" placeholder="Password" required>
+                <br>
             {{!-- The is no input for a timezone in the User table at the moment --}}
             {{!-- <br>
             <label for="timezone">Time Zone: </label>
             <button type="submit">Select Time Zone</button> --}}
-            <br>
-            <button type="submit" id="signUpButton">Create Account</button>
+            <button type="submit" id="signUpButton" class="active">Create Account</button>
         </form>
     </div>
         <br>
-                <br>
-                    <ul class="button-container">
-                        <li class="login-tab"><a href="#login">Log In</a></li>
-                        <li class="create-tab-active"><a href="#signup">Create Account</a></li>
-                    </ul>  
+    <div>
+        <button id="returnToLogin" class="inactive">Already Have an Account? Login Here!</button>
+    </div>
  </section>
  <script src="/js/signup.js"></script>
