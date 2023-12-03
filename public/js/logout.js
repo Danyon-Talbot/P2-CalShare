@@ -19,7 +19,7 @@ const logoutHandler = async (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (window.location.pathname == '/login') {
+    if (window.location.pathname == '/login' || window.location.pathname == '/signup') {
         document.getElementById('logout-form').style.display = 'none';
     } else {
         document.getElementById('logout-form').style.display = 'block';
