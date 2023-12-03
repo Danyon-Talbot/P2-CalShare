@@ -8,43 +8,43 @@ const UserEvent = require('./UserEvent');
 
 //Users to Events: One-to-Many
 User.hasMany(Event, {
-    foreignKey: 'id',
+    foreignKey: 'creator_id',
     onDelete: 'CASCADE'
 });
   
 Event.belongsTo(User, {
-    foreignKey: 'id'
+    foreignKey: 'creator_id'
 });
   
 //Events to Users: Many-to-Many through UserEvents
 User.belongsToMany(Event, {
     through: UserEvent,
-    foreignKey: 'id'
+    foreignKey: 'user_id'
 });
   
 Event.belongsToMany(User, {
     through: UserEvent,
-    foreignKey: 'id'
+    foreignKey: 'event_id'
 });
 
 //Users to UserEvents: One-to-Many
 User.hasMany(UserEvent, {
-    foreignKey: 'id',
+    foreignKey: 'user_id',
     onDelete: 'CASCADE'
 });
   
 UserEvent.belongsTo(User, {
-    foreignKey: 'id'
+    foreignKey: 'user_id'
 });
 
-//UserEvents to Availability: One-to-Many
-UserEvent.hasMany(Availability, {
-    foreignKey: 'user_event_id', //What is this referencing?
+//User to Availability: One-to-Many
+User.hasMany(Availability, {
+    foreignKey: 'user_id',
     onDelete: 'CASCADE'
 });
   
-Availability.belongsTo(UserEvent, {
-    foreignKey: 'user_event_id' //What is this referencing?
+Availability.belongsTo(User, {
+    foreignKey: 'user_id'
 });
   
 module.exports = {sequelize, User, Event, UserEvent, Availability};

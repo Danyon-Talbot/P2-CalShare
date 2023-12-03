@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-
 // GET event by ID
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
@@ -37,7 +36,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
-router.post('/', async (req, res) => {
+router.post('/create-event', async (req, res) => {
     try {
         const { event_name, creator_id, event_link, start_time, end_time, guests } = req.body;
 
@@ -65,6 +64,47 @@ router.post('/', async (req, res) => {
     }
 });
 
+//PUT
+router.put('/:id', async (req, res) => {
+    try {
+        const EventID = parseInt(req.params.id);
+        const updatedData = req.body;
+
+        const eventIndex = Event.findIndex(event => event.id === EventID);
+
+        if (eventIndex === -1) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        events[eventIndex] = { ...events[eventIndex], updatedData };
+
+        res.json({ message: 'Event updated successfully', event: events[eventIndex] });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+})
+
+//DELETE
+router.delete('/:id', async (req, res) => {
+    try {
+        const EventID = parseInt(req.params.id);
+
+        const eventIndex = Event.findIndex(event => event.id === EventID);
+
+        if (eventIndex === -1) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const deletedEvent = events.splice(eventIndex, 1)[0];
+
+        res.json({ message: 'Event deleted successfully', event: deletedEvent });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+
+    }
+});
 
 
 
