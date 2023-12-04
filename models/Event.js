@@ -5,33 +5,42 @@ class Event extends Model {}
 
 Event.init(
     {
-        EventID: {
+        id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-        EventName: {
+        event_name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        CreatorID: {
+        creator_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'user',
-                key: 'UserID'
+                key: 'id'
             }
         },
-        // will need to explore this further to ensure its functionality
-        EventLink: {
-            type: DataTypes.STRING,
+        start_time: {
+            type: DataTypes.DATE,
             allowNull: false,
-            unique: true
+        },
+        end_time: {
+            type: DataTypes.DATE, // or DataTypes.DATETIME
+            allowNull: false,
+        },
+        guests: {
+            type: DataTypes.JSON,
+            allowNull: true,
+            defaultValue: null,
         },
     },
     {
         sequelize,
         timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
         freezeTableName: true,
         underscored: true,
         modelName: 'event'

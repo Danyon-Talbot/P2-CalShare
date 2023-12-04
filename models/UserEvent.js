@@ -5,30 +5,26 @@ class UserEvent extends Model {}
 
 UserEvent.init(
     {
-        UserEventID: {
+        id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
-        UserID: {
-            type: DataTypes.INTEGER,
+        user_id: {
+            type: DataTypes.UUID,
             references: {
                 model: 'user',
-                key: 'UserID'
+                key: 'user_id'
             }
         },
-        EventID: {
+        event_id: {
             type: DataTypes.INTEGER,
             references: {
                 model: 'event',
-                key: 'EventID'
+                key: 'id'
             }
         },
-        Role: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
     },
     {
         sequelize,
@@ -38,5 +34,6 @@ UserEvent.init(
         modelName: 'UserEvent'
     }
 );
+
 
 module.exports = UserEvent;

@@ -1,0 +1,79 @@
+<section class="left-section">
+ <div class="title">
+    <div class="logo-container">
+        <div class="logo-text">CalShare</div>
+        <img class="logo-img" src="/images/Puzzellogo.png" alt="Group of friends meeting for coffee" height='150px'>
+    </div>
+</div>
+    <div>
+        <button class="createEventButton" id="createEventButton">Create Event</button>
+    </div>
+    <section class="events-container">
+        <div>
+        <h2>Your Events</h2>
+        </div>
+        <div class="events-list">
+
+        </div>
+    </section>
+</section>
+<section class="right-section">
+   {{> availability-details availability=availability}}    
+</section>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal" style="display: none">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <form class="createEvent-form">
+            <!-- Event Name -->
+            <div>
+                <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required>
+            </div>
+
+            <!-- Start Time -->
+            <div>
+                <label for="startTime">Start Time:</label>
+                <input type="datetime-local" id="startTime" name="startTime" required>
+            </div>
+
+            <!-- End Time -->
+            <div>
+                <label for="endTime">End Time:</label>
+                <input type="datetime-local" id="endTime" name="endTime" required>
+            </div>
+
+            <!-- Guests Selection -->
+            <div>
+                <div>
+                    <label>Invited Guests</label>
+                    <select multiple id="invited-guests-list">
+
+                    </select>
+                </div>
+                <label>Add Guests:</label> 
+                <select multiple id="guests-list" name="guests">
+                    
+                </select>
+            </div>
+
+            <!-- Event Owner (Hidden, taken from session) -->
+            <input type="hidden" name="eventOwner" id="userId" value="{{user_id}}">
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" id="createEventSave">Create Event</button>
+            </div>
+        </form>
+    </div>
+</div>
+    <div>
+        <form id="logout-form">
+            <button type="submit" id="logout-button">Logout</button>
+        </form>
+    </div>
+<script src="/js/logout.js"></script>
+<script src="/js/modal.js"></script>
+<script src="/js/showUserEvents.js"></script>

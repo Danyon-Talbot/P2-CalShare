@@ -1,30 +1,50 @@
-DROP DATABASE IF EXISTS ecommerce_db;
+DROP DATABASE IF EXISTS calendar_db;
 
-CREATE DATABASE ecommerce_db;
+CREATE DATABASE calendar_db;
 
-CREATE TABLE Category (
+USE calendar_db;
+
+CREATE TABLE User (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(255) NOT NULL
+    firstname VARCHAR(30) NOT NULL,
+    lastname VARCHAR(30) NOT NULL,
+    email VARCHAR(30) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    user_id VARCHAR(36) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX (user_id)  -- Add an index on user_id
 );
 
-CREATE TABLE Product (
+CREATE TABLE IF NOT EXISTS `event` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `event_name` VARCHAR(100) NOT NULL,
+  `creator_id` INT NOT NULL,
+  `start_time` DATETIME NOT NULL,
+  `end_time` DATETIME NOT NULL,
+  `guests` JSON,
+  `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`creator_id`) REFERENCES `User`(`id`)
+) ENGINE=InnoDB;
+
+
+CREATE TABLE UserEvent (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    product_name VARCHAR(255) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    stock INT NOT NULL DEFAULT 10,
-    category_id INT,
-    FOREIGN KEY (category_id) REFERENCES Category(id)
+    user_id VARCHAR(36) NOT NULL,
+    event_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES User(user_id),
+    FOREIGN KEY (event_id) REFERENCES Event(id)
 );
 
-CREATE TABLE Tag (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    tag_name VARCHAR(255) NOT NULL
-);
 
-CREATE TABLE ProductTag (
+CREATE TABLE Availability (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT,
-    tag_id INT,
-    FOREIGN KEY (product_id) REFERENCES Product(id),
-    FOREIGN KEY (tag_id) REFERENCES Tag(id)
+    user_id VARCHAR(36) NOT NULL,
+    start DATETIME NOT NULL,
+    end DATETIME NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
