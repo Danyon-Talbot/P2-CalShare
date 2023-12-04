@@ -321,7 +321,10 @@ body {
     z-index: 2;
 }
 
-
+.events-container {
+    max-height: 50%;
+    overflow-y: auto; /* Add vertical scroll if content exceeds the max height */\
+}
 
 .menu-button:hover {
 background-color: #f0f0f0;
