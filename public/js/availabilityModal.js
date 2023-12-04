@@ -168,6 +168,21 @@ async function updateMainCalendar(userId) {
     }
 }
 
+async function updateMainCalendar(userId) {
+    try {
+        const response = await fetch(`/api/availability/${userId}`);
+        if (response.ok) {
+            const updatedAvailability = await response.json();
+            // Update the main calendar with this data
+            // For example, clear existing events and add new ones
+        } else {
+            console.error('Failed to fetch updated availability');
+        }
+    } catch (error) {
+        console.error('Error fetching updated availability:', error);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const modal = createModal();
 

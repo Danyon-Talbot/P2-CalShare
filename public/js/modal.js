@@ -3,16 +3,11 @@ var modal = document.getElementById("myModal");
 var btn = document.getElementById("createEventButton");
 var span = document.getElementById("closeModal");
 const guestsList = document.getElementById('guests-list');
-
-
-
-
 const invitedGuestsList = document.getElementById('invited-guests-list');
+
+
 document.addEventListener('DOMContentLoaded', () => {
     function populateGuests() {
-        // Clear the existing options in guestsList
-        //guestsList.innerHTML = '';
-        //invitedGuestsList.innerHTML = '';
 
         fetch('/api/users')
             .then((response) => {
@@ -75,6 +70,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const invitedGuests = selectedGuestIds; // Uses the selectedGuestIds array
     
         try {
+            // Check if eventName is empty
+        if (!eventName) {
+            alert('Please enter an event name.');
+            return;
+        }
+
+        // Check if startTime is empty or invalid
+        if (!startTime || isNaN(new Date(startTime).getTime())) {
+            alert('Please enter a valid start time.');
+            return;
+        }
+
+        // Check if endTime is empty or invalid
+        if (!endTime || isNaN(new Date(endTime).getTime())) {
+            alert('Please enter a valid end time.');
+            return;
+        }
             // Fetch the creator's user_id from session storage
             const creatorUserId = sessionStorage.getItem('user_id');
     
@@ -119,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Close the modal after the event is saved
             const modal = document.getElementById('myModal');
             modal.style.display = 'none';
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error);
         }
@@ -133,8 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedGuestIds.length = 0; // Clear the selected guest IDs array
       }
 
-
-    
+      
     guestsList.addEventListener('click', handleGuestList);
     invitedGuestsList.addEventListener('click', handleGuestList);
     // Open the modal when the button is clicked
@@ -156,5 +168,5 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target == modal) {
             modal.style.display = "none";
         }
-    }
+    } 
 });
