@@ -1,5 +1,7 @@
 let isCalendarInitialized = false;
 let selectedTimeSlots = []; // Array to store selected time slots
+let eventsToDelete = []; // Array to store deleted time slots
+let availabilityIdMap = {};
 let modalCalendar; 
 
 function createModal() {
@@ -36,12 +38,6 @@ function createModalContent(modal) {
     closeButton.textContent = '×';
     modalContent.appendChild(closeButton);
 
-    // Create a button to fetch and refresh availability
-    const fetchButton = document.createElement('button');
-    fetchButton.textContent = 'Refresh Availability';
-    fetchButton.id = 'fetchAvailability';
-    modalContent.appendChild(fetchButton);
-
     // Append the modal content to the modal
     modal.appendChild(modalContent);
 }
@@ -53,10 +49,11 @@ function refreshModalCalendar(userId) {
             modalCalendar.getEvents().forEach(event => event.remove());
             availabilityData.forEach(eventData => {
                 modalCalendar.addEvent({
+                    id: eventData.id,
                     start: eventData.start,
                     end: eventData.end,
-                    backgroundColor: '#00ff00',
-                    borderColor: '#00ff00'
+                    backgroundColor: '#FAB940',
+                    borderColor: '#FAB940'
                 });
             });
         }
@@ -68,7 +65,16 @@ async function fetchUserAvailability(userId) {
         const response = await fetch(`/api/availability/${userId}`);
         if (response.ok) {
             const availabilityData = await response.json();
-            return availabilityData;
+            // Populate the availabilityIdMap
+            availabilityData.forEach(item => {
+                const key = `${item.start}_${item.end}`; // Create a unique key
+                availabilityIdMap[key] = item.id;
+            });            
+            return availabilityData.map(item => ({
+                id: item.id,
+                start: item.start,
+                end: item.end
+            }));
         } else {
             console.error('Failed to fetch user availability');
         }
@@ -118,7 +124,22 @@ function initModalCalendar() {
                 });
             }
         },
+        // Modify eventClick to use availabilityIdMap
         eventClick: function(info) {
+            // Convert start and end times to the format 'YYYY-MM-DD HH:mm:ss'
+            let formattedStart = info.event.start.toISOString().slice(0, 19).replace('T', ' ');
+            let formattedEnd = info.event.end.toISOString().slice(0, 19).replace('T', ' ');
+
+            const key = `${formattedStart}_${formattedEnd}`;
+            const idToDelete = availabilityIdMap[key]; // Get the ID using the map
+
+            if (idToDelete) {
+                eventsToDelete.push({
+                    id: idToDelete,
+                    start: formattedStart,
+                    end: formattedEnd
+                }); // Push the ID and times for deletion
+            }
             // Remove the event on click
             info.event.remove();
             
@@ -130,26 +151,6 @@ function initModalCalendar() {
     });
     modalCalendar.render();
     isCalendarInitialized = true;
-
-    // Fetch and display the user's existing availability
-    fetchUserAvailability(userId).then(availabilityData => {
-        if (availabilityData) {
-            // Transform data if necessary to match FullCalendar event format
-            // Example: Assuming availabilityData is an array of objects with start and end properties
-            availabilityData.forEach(eventData => {
-                modalCalendar.addEvent({
-                    start: eventData.start,
-                    end: eventData.end,
-                    backgroundColor: '#00ff00',
-                    borderColor: '#00ff00'
-                });
-                selectedTimeSlots.push({
-                    start: eventData.start,
-                    end: eventData.end
-                });
-            });
-        }
-    });
 }
 
 async function updateMainCalendar(userId) {
@@ -177,6 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userId) {
             modal.style.display = 'flex'; // Show the modal
             initModalCalendar(userId); // Initialize the FullCalendar in the modal with user's data
+            refreshModalCalendar(userId);
+
         } else {
             console.error('User ID not found in session storage');
         }
@@ -207,10 +210,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
             if (response.ok) {
                 console.log('Availability submitted successfully');
-                // Assuming you have a way to access the calendar instance from availability.js
+                const mainCalendarInstance = window.getMainCalendarInstance();
                 // Call updateCalendarWithAvailability to refresh the calendar
-                if (userId && typeof updateCalendarWithAvailability === "function") {
-                    updateCalendarWithAvailability(userId, calendarInstanceFromAvailabilityJs);
+                if (userId && mainCalendarInstance) {
+                    updateCalendarWithAvailability(userId, mainCalendarInstance);
                 }
             } else {
                 console.error('Failed to submit availability');
@@ -219,22 +222,33 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Error submitting availability:', error);
         }
-        // You can use fetch or another method to POST this data to your backend
+        if (eventsToDelete.length > 0) {
+            console.log("Sending delete request for ids:", eventsToDelete);
+            try {
+                const deleteResponse = await fetch('/api/availability/delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(eventsToDelete),
+                });
+    
+                if (deleteResponse.ok) {
+                    console.log('Deleted availability successfully');
+                    eventsToDelete = []; // Clear the array after successful deletion
+                } else {
+                    console.error('Failed to delete availability');
+                }
+            } catch (error) {
+                console.error('Error deleting availability:', error);
+            }
+        }
         modal.style.display = 'none'; // Hide the modal after submission
     });
     
     document.getElementById('close').addEventListener('click', function() {
         modal.style.display = 'none';
     });
-    // Event listener to fetch and refresh availability
-    document.getElementById('fetchAvailability').addEventListener('click', function() {
-        const userId = sessionStorage.getItem('user_id');
-        if (userId) {
-            refreshModalCalendar(userId);
-        } else {
-            console.error('User ID not found in session storage');
-        }
-    });    
     // Add more event listeners as needed
 });
 

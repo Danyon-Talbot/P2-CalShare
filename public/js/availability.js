@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
 
+    window.getMainCalendarInstance = function() {
+        return calendar;
+    };    
+
     // Fetch and display events data
     const userId = sessionStorage.getItem('user_id');
     if (userId) {
