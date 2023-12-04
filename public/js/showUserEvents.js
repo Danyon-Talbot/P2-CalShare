@@ -1,11 +1,9 @@
 function formatTime(time) {
-    // Your formatting logic here, for example:
     const options = { hour: '2-digit', minute: '2-digit' };
     return new Date(time).toLocaleTimeString(undefined, options);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Your code here
     console.log("Show User Events Script Loaded");
 
     function fetchUserEvents() {
@@ -20,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(`/api/events?guests=${userId}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log('Data received:', data); // Logs Data
                 if (data && Array.isArray(data) && data.length > 0) {
                     console.log("Data fetched successfully:", data);
                     // Pass the events data to a Handlebars template
