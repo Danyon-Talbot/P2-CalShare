@@ -38,6 +38,12 @@ function createModalContent(modal) {
     closeButton.textContent = '×';
     modalContent.appendChild(closeButton);
 
+    // Create a button to fetch and refresh availability
+    const fetchButton = document.createElement('button');
+    fetchButton.textContent = 'Refresh Availability';
+    fetchButton.id = 'fetchAvailability';
+    modalContent.appendChild(fetchButton);
+
     // Append the modal content to the modal
     modal.appendChild(modalContent);
 }
@@ -151,6 +157,41 @@ function initModalCalendar() {
     });
     modalCalendar.render();
     isCalendarInitialized = true;
+
+    // Fetch and display the user's existing availability
+    fetchUserAvailability(userId).then(availabilityData => {
+        if (availabilityData) {
+            // Transform data if necessary to match FullCalendar event format
+            // Example: Assuming availabilityData is an array of objects with start and end properties
+            availabilityData.forEach(eventData => {
+                modalCalendar.addEvent({
+                    start: eventData.start,
+                    end: eventData.end,
+                    backgroundColor: '#00ff00',
+                    borderColor: '#00ff00'
+                });
+                selectedTimeSlots.push({
+                    start: eventData.start,
+                    end: eventData.end
+                });
+            });
+        }
+    });
+}
+
+async function updateMainCalendar(userId) {
+    try {
+        const response = await fetch(`/api/availability/${userId}`);
+        if (response.ok) {
+            const updatedAvailability = await response.json();
+            // Update the main calendar with this data
+            // For example, clear existing events and add new ones
+        } else {
+            console.error('Failed to fetch updated availability');
+        }
+    } catch (error) {
+        console.error('Error fetching updated availability:', error);
+    }
 }
 
 async function updateMainCalendar(userId) {
@@ -214,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Call updateCalendarWithAvailability to refresh the calendar
                 if (userId && mainCalendarInstance) {
                     updateCalendarWithAvailability(userId, mainCalendarInstance);
+
                 }
             } else {
                 console.error('Failed to submit availability');

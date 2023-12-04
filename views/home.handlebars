@@ -1,7 +1,10 @@
 <section class="left-section">
-    <div class="title">
-            <h1>CalShare</h1>
+ <div class="title">
+    <div class="logo-container">
+        <div class="logo-text">CalShare</div>
+        <img class="logo-img" src="/images/Puzzellogo.png" alt="Group of friends meeting for coffee" height='150px'>
     </div>
+</div>
     <div>
         <button class="createEventButton" id="createEventButton">Create Event</button>
     </div>
@@ -9,15 +12,9 @@
         <div>
         <h2>Your Events</h2>
         </div>
-    {{#if events.length}}
-        <ul class="events-list">
-            {{#each events}}
-                <li>{{this.name}} - {{this.date}}</li>
-            {{/each}}
-        </ul>
-    {{else}}
-    <p>No events found.</p>
-    {{/if}}
+        <div class="events-list">
+
+        </div>
     </section>
 </section>
 <section class="right-section">
@@ -79,4 +76,4 @@
     </div>
 <script src="/js/logout.js"></script>
 <script src="/js/modal.js"></script>
-<script src="/js/createEvent.js"></script>
+<script src="/js/showUserEvents.js"></script>
