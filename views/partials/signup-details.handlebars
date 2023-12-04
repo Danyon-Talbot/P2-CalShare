@@ -1,25 +1,21 @@
 <section class="form-container">
-    <div>
-        <form id="signup-form" class="form">
+    <div id="signup-form">
+        <form  class="form">
                 <input type="text" id="firstname-signup" name="firstname" class="first-name" placeholder="First Name" required>
                 <br>
                 <input type="text" id="lastname-signup" name="lastname" class="last-name" placeholder="Last Name" required>
                 <br>
                 <input type="text" id="email-signup" name="email" class="email" placeholder="Email" required>
                 <br>
-                <input type="text" id="password-signup" name="password" class="password" placeholder="Password" required>
+                <input type="password" id="password-signup" name="password" class="password" placeholder="Password" required>
                 <br>
-            {{!-- The is no input for a timezone in the User table at the moment --}}
-            {{!-- <br>
-            <label for="timezone">Time Zone: </label>
-            <button type="submit">Select Time Zone</button> --}}
             <button type="submit" id="signUpButton" class="active">Create Account</button>
         </form>
-    </div>
         <br>
-    <div>
-        <button id="returnToLogin" class="inactive">Already Have an Account? Login Here!</button>
-
+        {{!-- <div> --}}
+            <button id="returnToLogin" class="inactive">Already Have an Account? Login Here!</button>
+        {{!-- </div> --}}
     </div>
+
  </section>
  <script src="/js/signup.js"></script>
