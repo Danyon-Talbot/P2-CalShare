@@ -11,8 +11,8 @@ const invitedGuestsList = document.getElementById('invited-guests-list');
 document.addEventListener('DOMContentLoaded', () => {
     function populateGuests() {
         // Clear the existing options in guestsList
-        guestsList.innerHTML = '';
-        invitedGuestsList.innerHTML = '';
+        //guestsList.innerHTML = '';
+        //invitedGuestsList.innerHTML = '';
 
         fetch('/api/users')
             .then((response) => {
@@ -123,11 +123,23 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         }
     });
+
+    function resetCreateEventForm() {
+        document.getElementById('eventName').value = '';
+        document.getElementById('startTime').value = '';
+        document.getElementById('endTime').value = '';
+        guestsList.innerHTML = ''; // Clear the selected guests
+        invitedGuestsList.innerHTML = ''; // Clear the invited guests
+        selectedGuestIds.length = 0; // Clear the selected guest IDs array
+      }
+
+
     
     guestsList.addEventListener('click', handleGuestList);
     invitedGuestsList.addEventListener('click', handleGuestList);
     // Open the modal when the button is clicked
     btn.onclick = function() {
+        resetCreateEventForm(); // Reset the form
         modal.style.display = "flex";
         populateGuests();
 
