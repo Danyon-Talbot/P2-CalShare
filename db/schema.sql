@@ -37,6 +37,7 @@ CREATE TABLE UserEvent (
     FOREIGN KEY (event_id) REFERENCES Event(id)
 );
 
+
 CREATE TABLE Availability (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(36) NOT NULL,
