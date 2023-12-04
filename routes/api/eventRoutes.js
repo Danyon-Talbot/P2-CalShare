@@ -68,14 +68,6 @@ router.post('/', isAuthenticated, async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
 //PUT
 router.put('/:id', async (req, res) => {
     try {
