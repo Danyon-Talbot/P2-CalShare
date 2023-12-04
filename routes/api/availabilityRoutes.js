@@ -28,4 +28,21 @@ router.get('/:userId', isAuthenticated, async (req, res) => {
   }
 });
 
+// New DELETE route for removing specific availability entries
+router.delete('/delete', isAuthenticated, async (req, res) => {
+  console.log(req.body)
+  try {
+      const idsToDelete = req.body.map(event => event.id); // Extract IDs from the eventsToDelete array
+      for (const id of idsToDelete) {
+          await Availability.destroy({
+              where: { id: id } // Delete based on ID
+          });
+      }
+      res.status(200).json({ message: 'Availability deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting availability:', error);
+      res.status(500).json({ error: 'Error deleting availability' });
+  }
+});
+
 module.exports = router;
