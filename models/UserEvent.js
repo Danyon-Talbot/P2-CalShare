@@ -25,10 +25,6 @@ UserEvent.init(
                 key: 'id'
             }
         },
-        role: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
     },
     {
         sequelize,
