@@ -12,15 +12,9 @@
         <div>
         <h2>Your Events</h2>
         </div>
-    {{#if events.length}}
-        <ul class="events-list">
-            {{#each events}}
-                <li>{{this.name}} - {{this.date}}</li>
-            {{/each}}
-        </ul>
-    {{else}}
-    <p>No events found.</p>
-    {{/if}}
+        <div class="events-list">
+
+        </div>
     </section>
 </section>
 <section class="right-section">
@@ -82,4 +76,4 @@
     </div>
 <script src="/js/logout.js"></script>
 <script src="/js/modal.js"></script>
-<script src="/js/createEvent.js"></script>
+<script src="/js/showUserEvents.js"></script>

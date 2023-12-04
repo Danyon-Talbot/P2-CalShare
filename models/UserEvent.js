@@ -15,7 +15,7 @@ UserEvent.init(
             type: DataTypes.UUID,
             references: {
                 model: 'user',
-                key: 'id'
+                key: 'user_id'
             }
         },
         event_id: {
@@ -34,5 +34,6 @@ UserEvent.init(
         modelName: 'UserEvent'
     }
 );
+
 
 module.exports = UserEvent;

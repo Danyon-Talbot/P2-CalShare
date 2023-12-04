@@ -33,10 +33,10 @@ CREATE TABLE UserEvent (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(36) NOT NULL,
     event_id INT NOT NULL,
-    user_role VARCHAR(30) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES User(user_id),
     FOREIGN KEY (event_id) REFERENCES Event(id)
 );
+
 
 CREATE TABLE Availability (
     id INT AUTO_INCREMENT PRIMARY KEY,

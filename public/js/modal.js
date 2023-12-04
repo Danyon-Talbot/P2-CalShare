@@ -11,8 +11,8 @@ const invitedGuestsList = document.getElementById('invited-guests-list');
 document.addEventListener('DOMContentLoaded', () => {
     function populateGuests() {
         // Clear the existing options in guestsList
-        guestsList.innerHTML = '';
-        invitedGuestsList.innerHTML = '';
+        //guestsList.innerHTML = '';
+        //invitedGuestsList.innerHTML = '';
 
         fetch('/api/users')
             .then((response) => {
@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then((users) => {
                 users.forEach((user) => {
                     const option = document.createElement('option');
-                    option.value = user.id;
-                    option.setAttribute('data-user_id', user.id);
+                    option.value = user.user_id; // Use user_id instead of id
+                    option.setAttribute('data-user_id', user.user_id); // Set user_id as data attribute
                     option.textContent = `${user.firstname} ${user.lastname}`;
                     guestsList.appendChild(option);
                 });
@@ -34,20 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error:', error);
             });
     }
-      
-    
+
     const selectedGuestIds = []; // Initialize an array to store selected guest IDs
 
     function handleGuestList(event) {
         if (event.target.tagName === 'OPTION') {
             const guestOption = event.target;
-        
+
             if (invitedGuestsList.contains(guestOption)) {
                 // Uninvite the guest by moving it back to the guestsList
                 const clonedOption = guestOption.cloneNode(true);
                 invitedGuestsList.removeChild(guestOption);
                 guestsList.appendChild(clonedOption);
-                
+
                 // Remove the guest ID from the selectedGuestIds array
                 const guestId = guestOption.getAttribute('data-user_id');
                 const index = selectedGuestIds.indexOf(guestId);
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const clonedOption = guestOption.cloneNode(true);
                 guestsList.removeChild(guestOption);
                 invitedGuestsList.appendChild(clonedOption);
-                
+
                 // Add the guest ID to the selectedGuestIds array
                 const guestId = guestOption.getAttribute('data-user_id');
                 selectedGuestIds.push(guestId);
@@ -76,19 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const invitedGuests = selectedGuestIds; // Uses the selectedGuestIds array
     
         try {
-            // Fetch the user ID from session storage
-            const userId = sessionStorage.getItem('user_id');
-            
+            // Fetch the creator's user_id from session storage
+            const creatorUserId = sessionStorage.getItem('user_id');
+    
             const eventData = {
                 event_name: eventName,
-                creator_id: userId,
+                creator_id: creatorUserId, // Use the creator's user_id
                 start_time: startTime,
                 end_time: endTime,
                 guests: invitedGuests,
             };
             console.log(eventData);
     
-            // Uses the user ID to create the event
+            // Uses the creator's user_id to create the event
             const createEventResponse = await fetch('/api/events', {
                 method: 'POST',
                 headers: {
@@ -103,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const newEvent = await createEventResponse.json();
             console.log('Event Saved:', newEvent);
-
+    
             for (const guestId of invitedGuests) {
                 await fetch('/api/userEvents', {
                     method: 'POST',
@@ -111,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        user_id: guestId,
+                        user_id: guestId, // Use the guest's user_id
                         event_id: newEvent.id,
                     }),
                 });
@@ -124,12 +123,23 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         }
     });
+
+    function resetCreateEventForm() {
+        document.getElementById('eventName').value = '';
+        document.getElementById('startTime').value = '';
+        document.getElementById('endTime').value = '';
+        guestsList.innerHTML = ''; // Clear the selected guests
+        invitedGuestsList.innerHTML = ''; // Clear the invited guests
+        selectedGuestIds.length = 0; // Clear the selected guest IDs array
+      }
+
+
     
     guestsList.addEventListener('click', handleGuestList);
-    invitedGuestsList.addEventListener('click', handleGuestList)
-
+    invitedGuestsList.addEventListener('click', handleGuestList);
     // Open the modal when the button is clicked
     btn.onclick = function() {
+        resetCreateEventForm(); // Reset the form
         modal.style.display = "flex";
         populateGuests();
 
@@ -140,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = "none";
     }
 
+    
     // Close the modal when the user clicks outside of it
     window.onclick = function(event) {
         if (event.target == modal) {
