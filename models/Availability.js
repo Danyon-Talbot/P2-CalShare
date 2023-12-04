@@ -20,16 +20,12 @@ Availability.init(
         },
         // This section may need adjusting in line with our calendar package
             // We may need additional attributes for multiple dates and multiple availabilities with in each date
-        date: {
-            type: DataTypes.DATEONLY,
+        start: {
+            type: DataTypes.DATE,
             allowNull: false
         },
-        start_time: {
-            type: DataTypes.TIME,
-            allowNull: false
-        },
-        end_time: {
-            type: DataTypes.TIME,
+        end: {
+            type: DataTypes.DATE,
             allowNull: false
         },
         status: {
