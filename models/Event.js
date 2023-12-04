@@ -30,6 +30,11 @@ Event.init(
             type: DataTypes.DATE, // or DataTypes.DATETIME
             allowNull: false,
         },
+        guests: {
+            type: DataTypes.JSON,
+            allowNull: true,
+            defaultValue: null,
+        },
     },
     {
         sequelize,
