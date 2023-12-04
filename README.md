@@ -22,6 +22,8 @@ To install CalShare, follow these steps:
 2. Install the necessary dependencies by running `npm install`.
 
 ## Usage
+Experience CalShare firsthand here: [CalShare](https://sleepy-castle-96589-687879c1fd68.herokuapp.com/login)
+
 1. Sign up or log in to access your dashboard.
 2. Create new events or view existing ones.
 3. Invite team members and track their availability.
@@ -36,7 +38,7 @@ To install CalShare, follow these steps:
 ## Credits
 - **Developers**: Danyon Talbot, Isaac Masterman, Josh Nardella, and Emma Denton.
 - **Inspiration**: Inspired by when2meet and integrated with FullCalendar.io.
-- **Mentorship**: Thanks to Saurya Acharya, instructor at the EdEx coding bootcamp, for guidance and support.
+- **Mentorship**: Thanks to Saurya Acharya, an instructor at the EdEx coding boot camp, for guidance and support.
 
 ## License
 This project is licensed under the MIT License. For more information, please see the [LICENSE](LICENSE) file.
